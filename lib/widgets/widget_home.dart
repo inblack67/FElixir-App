@@ -1,4 +1,6 @@
 import 'package:felixir/widgets/custom_button.dart';
+import 'package:felixir/widgets/widget_login.dart';
+import 'package:felixir/widgets/widget_register.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -48,14 +50,14 @@ class Home extends StatelessWidget {
           CustomButton(
             title: 'Login',
             onPressed: () {
-              print('login pressed');
+              Navigator.of(context).pushNamed(Login.id);
             },
           ),
           const SizedBox(height: 16.0),
           CustomButton(
             title: 'Register',
             onPressed: () {
-              print('register pressed');
+              Navigator.of(context).pushNamed(Register.id);
             },
           ),
         ],

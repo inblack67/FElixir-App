@@ -18,6 +18,8 @@ class CustomButton extends StatelessWidget {
         color: Colors.purple,
         onPressed: onPressed,
         child: Text(title),
+        minWidth: 200.0,
+        height: 50.0,
       ),
     );
   }

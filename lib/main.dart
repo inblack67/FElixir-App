@@ -1,4 +1,6 @@
 import 'package:felixir/widgets/widget_home.dart';
+import 'package:felixir/widgets/widget_login.dart';
+import 'package:felixir/widgets/widget_register.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -38,6 +40,11 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: const Home(),
+      routes: {
+        Home.id: (context) => const Home(),
+        Login.id: (context) => const Login(),
+        Register.id: (context) => const Register(),
+      },
     );
   }
 }
