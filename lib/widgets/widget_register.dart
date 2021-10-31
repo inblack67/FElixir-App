@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:felixir/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -14,6 +16,8 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
 
+  final _registerEndpoint = 'http://localhost:4000/api/auth/register';
+
   String _name = '';
   String _email = '';
   String _username = '';
@@ -23,12 +27,29 @@ class _RegisterState extends State<Register> {
     final _form = _formKey.currentState;
     if (_form != null && _form.validate()) {
       _form.save();
-      print('$_name $_email $_username, $_password');
-    }
-  }
+      Map<String, String> user = {
+        'username': _username,
+        'password': _password,
+        'name': _name,
+        'email': _email,
+      };
 
-  handleGoBack() {
-    Navigator.of(context).popUntil((route) => route.isFirst);
+      try {
+        var userJson = jsonEncode(user);
+        var res = await http.post(
+          Uri.parse(_registerEndpoint),
+          headers: <String, String>{
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: userJson,
+        );
+        var resBody = json.decode(res.body);
+        print(resBody);
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 
   @override
@@ -37,7 +58,11 @@ class _RegisterState extends State<Register> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         actions: [
-          CloseButton(onPressed: handleGoBack, color: Colors.purple),
+          CloseButton(
+              onPressed: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+              color: Colors.purple),
         ],
         title: const Text('FElixir',
             style: TextStyle(
@@ -78,6 +103,7 @@ class _RegisterState extends State<Register> {
                 decoration: const InputDecoration(hintText: 'Enter your email'),
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (val) => _email = val,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (val) {
                   if (val == null || val.isEmpty) {
                     return 'Email is required';

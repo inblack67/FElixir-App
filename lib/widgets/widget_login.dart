@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:felixir/entities/user.dart';
 import 'package:felixir/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -14,6 +17,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
+  final _loginEndpoint = 'http://localhost:4000/api/auth/login';
+
   String _username = '';
   String _password = '';
 
@@ -21,12 +26,29 @@ class _LoginState extends State<Login> {
     final _form = _formKey.currentState;
     if (_form != null && _form.validate()) {
       _form.save();
-      print('$_username, $_password');
-    }
-  }
+      Map<String, String> user = {
+        'username': _username,
+        'password': _password,
+      };
 
-  handleGoBack() {
-    Navigator.of(context).popUntil((route) => route.isFirst);
+      try {
+        var userJson = jsonEncode(user);
+        var res = await http.post(
+          Uri.parse(_loginEndpoint),
+          headers: <String, String>{
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=UTF-8',
+            
+          },
+          body: userJson,
+        );
+        print(res.headers);
+        var resBody = json.decode(res.body);
+        print(resBody);
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 
   @override
@@ -42,7 +64,11 @@ class _LoginState extends State<Login> {
               )),
           backgroundColor: Colors.black,
           actions: [
-            CloseButton(onPressed: handleGoBack, color: Colors.purple),
+            CloseButton(
+                onPressed: () {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                },
+                color: Colors.purple),
           ]),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
