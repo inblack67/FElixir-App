@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
     return Material(
       elevation: 6.0,
       child: MaterialButton(
-        color: Colors.red,
+        color: Colors.red[900],
         onPressed: onPressed,
         child: Text(title),
         minWidth: 200.0,

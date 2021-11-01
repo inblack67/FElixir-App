@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class CustomAlert extends StatelessWidget {
   final String title;
   final String message;
-  String okTitle;
+  final String okTitle;
 
-  CustomAlert(
+  const CustomAlert(
       {Key? key,
       required this.title,
       required this.message,
@@ -18,9 +18,9 @@ class CustomAlert extends StatelessWidget {
       backgroundColor: Colors.black,
       title: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 24.0,
-          color: Colors.red,
+          color: Colors.red[900],
         ),
       ),
       content: SingleChildScrollView(
@@ -41,7 +41,7 @@ class CustomAlert extends StatelessWidget {
           child: Text(okTitle),
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.resolveWith(
-              (states) => Colors.red,
+              (states) => Colors.red[900],
             ),
             foregroundColor: MaterialStateProperty.resolveWith(
               (states) => Colors.white,

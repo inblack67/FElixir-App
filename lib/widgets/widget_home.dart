@@ -1,21 +1,53 @@
-import 'package:felixir/widgets/custom_button.dart';
-import 'package:felixir/widgets/widget_login.dart';
-import 'package:felixir/widgets/widget_register.dart';
+import 'dart:convert';
+
+import 'package:felixir/utils/apis.dart';
+import 'package:felixir/widgets/widget_mylinks.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
-
   static const id = 'HOME';
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  bool _isAuthenticated = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  getCurrentUser() async {
+    try {
+      var res = await http.get(Uri.parse(APIs.getMeAPI),
+          headers: <String, String>{'Accept': 'application/json'});
+      var data = json.decode(res.body);
+      print(data);
+      if (data['success'] == true) {
+        setState(() {
+          _isAuthenticated = true;
+        });
+      } else {
+        print(data);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('FElixir',
+        title: Text('FElixir',
             style: TextStyle(
-              color: Colors.red,
+              color: Colors.red[900],
               fontWeight: FontWeight.bold,
               fontSize: 32.0,
             )),
@@ -26,8 +58,8 @@ class Home extends StatelessWidget {
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const <Widget>[
-              Padding(
+            children: <Widget>[
+              const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Hero(
                     tag: 'logo',
@@ -39,7 +71,7 @@ class Home extends StatelessWidget {
               Text(
                 'FElixir',
                 style: TextStyle(
-                  color: Colors.red,
+                  color: Colors.red[900],
                   fontWeight: FontWeight.bold,
                   fontSize: 32.0,
                 ),
@@ -47,19 +79,7 @@ class Home extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16.0),
-          CustomButton(
-            title: 'Login',
-            onPressed: () {
-              Navigator.of(context).pushNamed(Login.id);
-            },
-          ),
-          const SizedBox(height: 16.0),
-          CustomButton(
-            title: 'Register',
-            onPressed: () {
-              Navigator.of(context).pushNamed(Register.id);
-            },
-          ),
+          MyLinks(isAuthenticated: _isAuthenticated),
         ],
       ),
     );

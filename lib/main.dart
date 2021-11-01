@@ -19,19 +19,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // Define the default brightness and colors.
         brightness: Brightness.dark,
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.red[900],
         primaryColor: Colors.grey[850],
         fontFamily: 'Georgia',
-        textTheme: const TextTheme(
+        textTheme: TextTheme(
           headline1: TextStyle(
             fontSize: 72.0,
             fontWeight: FontWeight.bold,
-            color: Colors.red,
+            color: Colors.red[900],
           ),
           headline6: TextStyle(
             fontSize: 36.0,
             fontStyle: FontStyle.normal,
-            color: Colors.red,
+            color: Colors.red[900],
           ),
           bodyText2: TextStyle(
             fontSize: 14.0,

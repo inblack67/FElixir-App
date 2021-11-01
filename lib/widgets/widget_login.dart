@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:felixir/entities/user.dart';
 import 'package:felixir/utils/apis.dart';
 import 'package:felixir/widgets/custom_alert.dart';
 import 'package:felixir/widgets/custom_button.dart';
@@ -92,9 +91,9 @@ class _LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-          title: const Text('FElixir',
+          title: Text('FElixir',
               style: TextStyle(
-                color: Colors.red,
+                color: Colors.red[900],
                 fontWeight: FontWeight.bold,
                 fontSize: 32.0,
               )),
@@ -104,7 +103,7 @@ class _LoginState extends State<Login> {
                 onPressed: () {
                   Navigator.of(context).pushNamed(Home.id);
                 },
-                color: Colors.red),
+                color: Colors.red[900]),
           ]),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

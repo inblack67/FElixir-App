@@ -96,11 +96,11 @@ class _RegisterState extends State<Register> {
               onPressed: () {
                 Navigator.of(context).pushNamed(Home.id);
               },
-              color: Colors.red),
+              color: Colors.red[900]),
         ],
-        title: const Text('FElixir',
+        title: Text('FElixir',
             style: TextStyle(
-              color: Colors.red,
+              color: Colors.red[900],
               fontWeight: FontWeight.bold,
               fontSize: 32.0,
             )),
