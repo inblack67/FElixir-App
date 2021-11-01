@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:felixir/utils/apis.dart';
+import 'package:felixir/widgets/custom_alert.dart';
 import 'package:felixir/widgets/custom_button.dart';
+import 'package:felixir/widgets/widget_home.dart';
+import 'package:felixir/widgets/widget_login.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,7 +20,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
 
-  final _registerEndpoint = 'http://localhost:4000/api/auth/register';
+  final _registerEndpoint = APIs.registerAPI;
 
   String _name = '';
   String _email = '';
@@ -44,9 +48,39 @@ class _RegisterState extends State<Register> {
           },
           body: userJson,
         );
+
+        setState(() {
+          _name = '';
+          _email = '';
+          _username = '';
+          _password = '';
+        });
+
         var resBody = json.decode(res.body);
-        print(resBody);
+        if (resBody['success'] == true) {
+          showDialog(
+            context: context,
+            builder: (context) =>
+                CustomAlert(title: 'Success!', message: resBody['message']),
+          );
+          Navigator.of(context).pushNamed(Login.id);
+        } else {
+          showDialog(
+            context: context,
+            builder: (context) =>
+                CustomAlert(title: 'Error!', message: resBody['error']),
+          );
+          print(resBody);
+        }
       } catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => CustomAlert(
+            title: 'Error!',
+            message: 'Something went wrong!',
+            okTitle: 'I understand',
+          ),
+        );
         print(e);
       }
     }
@@ -60,13 +94,13 @@ class _RegisterState extends State<Register> {
         actions: [
           CloseButton(
               onPressed: () {
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.of(context).pushNamed(Home.id);
               },
-              color: Colors.purple),
+              color: Colors.red),
         ],
         title: const Text('FElixir',
             style: TextStyle(
-              color: Colors.purple,
+              color: Colors.red,
               fontWeight: FontWeight.bold,
               fontSize: 32.0,
             )),

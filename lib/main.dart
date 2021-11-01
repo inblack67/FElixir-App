@@ -1,3 +1,4 @@
+import 'package:felixir/widgets/widget_dashboard.dart';
 import 'package:felixir/widgets/widget_home.dart';
 import 'package:felixir/widgets/widget_login.dart';
 import 'package:felixir/widgets/widget_register.dart';
@@ -18,19 +19,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // Define the default brightness and colors.
         brightness: Brightness.dark,
-        backgroundColor: Colors.purple[50],
+        backgroundColor: Colors.red,
         primaryColor: Colors.grey[850],
         fontFamily: 'Georgia',
         textTheme: const TextTheme(
           headline1: TextStyle(
             fontSize: 72.0,
             fontWeight: FontWeight.bold,
-            color: Colors.purple,
+            color: Colors.red,
           ),
           headline6: TextStyle(
             fontSize: 36.0,
             fontStyle: FontStyle.normal,
-            color: Colors.purple,
+            color: Colors.red,
           ),
           bodyText2: TextStyle(
             fontSize: 14.0,
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
         Home.id: (context) => const Home(),
         Login.id: (context) => const Login(),
         Register.id: (context) => const Register(),
+        Dashboard.id: (context) => const Dashboard(),
       },
     );
   }

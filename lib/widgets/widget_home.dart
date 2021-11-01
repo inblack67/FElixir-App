@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: const Text('FElixir',
             style: TextStyle(
-              color: Colors.purple,
+              color: Colors.red,
               fontWeight: FontWeight.bold,
               fontSize: 32.0,
             )),
@@ -39,7 +39,7 @@ class Home extends StatelessWidget {
               Text(
                 'FElixir',
                 style: TextStyle(
-                  color: Colors.purple,
+                  color: Colors.red,
                   fontWeight: FontWeight.bold,
                   fontSize: 32.0,
                 ),
