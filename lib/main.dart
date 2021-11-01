@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             fontStyle: FontStyle.normal,
             color: Colors.red[900],
           ),
-          bodyText2: TextStyle(
+          bodyText2: const TextStyle(
             fontSize: 14.0,
             fontFamily: 'Hind',
             color: Colors.grey,

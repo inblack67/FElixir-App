@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
         });
         showDialog(
           context: context,
-          builder: (context) => CustomAlert(
+          builder: (context) => const CustomAlert(
             title: 'Error!',
             message: 'Something went wrong!',
             okTitle: 'I understand',
