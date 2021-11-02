@@ -1,0 +1,107 @@
+schema {
+  query: RootQueryType
+  mutation: RootMutationType
+  subscription: RootSubscriptionType
+}
+
+input DeletedMessageInput {
+  roomId: ID!
+}
+
+type DeletedMessageType {
+  messageId: ID
+  roomId: ID
+}
+
+input DeleteMessageInput {
+  messageId: ID!
+  roomId: ID!
+}
+
+input DeleteRoomInput {
+  roomId: ID!
+}
+
+input ListMessagesType {
+  cursor: Int
+  roomId: ID!
+}
+
+input MessageInputType {
+  content: String!
+  roomId: ID!
+}
+
+type MessageType {
+  content: String
+  id: ID
+  insertedAt: String
+  room: RoomType
+  roomId: ID
+  user: UserType
+  userId: ID
+}
+
+input RoomInputType {
+  description: String!
+  name: String!
+}
+
+type RoomType {
+  description: String
+  id: ID
+  insertedAt: String
+  messages: [MessageType]
+  name: String
+  user: UserType
+  userId: ID
+}
+
+type RootMutationType {
+  """Create Message"""
+  createMessage(input: MessageInputType!): MessageType
+
+  """Create Room"""
+  createRoom(input: RoomInputType!): Boolean
+
+  """Delete Message"""
+  deleteMessage(input: DeleteMessageInput!): DeletedMessageType
+
+  """Delete Room"""
+  deleteRoom(input: DeleteRoomInput!): Boolean
+}
+
+type RootQueryType {
+  """Get Me"""
+  getMe: UserType
+
+  """greet"""
+  hello: String
+
+  """Get all Message"""
+  messages(input: ListMessagesType!): [MessageType]
+
+  """Get all Rooms"""
+  rooms: [RoomType]
+
+  """Get all Users"""
+  users: [UserType]
+}
+
+type RootSubscriptionType {
+  """Deleted Message"""
+  deletedMessage(input: DeletedMessageInput!): DeletedMessageType
+
+  """New Message"""
+  newMessage(input: DeleteRoomInput!): MessageType
+}
+
+type UserType {
+  email: String
+  id: ID
+  insertedAt: String
+  name: String
+  rooms: [RoomType]
+  username: String
+}
+

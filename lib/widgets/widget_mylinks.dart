@@ -22,7 +22,7 @@ class MyLinks extends StatelessWidget {
               ),
             ],
           )
-        : Row(
+        : Column(
             children: [
               CustomButton(
                 title: 'Login',
