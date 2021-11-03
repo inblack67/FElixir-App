@@ -2,10 +2,11 @@ import 'package:felixir/ferry/client.dart';
 import 'package:felixir/graphql/messages.data.gql.dart';
 import 'package:felixir/graphql/messages.req.gql.dart';
 import 'package:felixir/graphql/messages.var.gql.dart';
-import 'package:felixir/graphql/rooms.req.gql.dart';
+import 'package:felixir/graphql/postMessage.req.gql.dart';
 import 'package:felixir/utils/chat_arguments.dart';
 import 'package:felixir/widgets/custom_alert.dart';
 import 'package:felixir/widgets/custom_button.dart';
+import 'package:felixir/widgets/widget_dashboard.dart';
 import 'package:felixir/widgets/widget_home.dart';
 import 'package:felixir/widgets/widget_message.dart';
 import 'package:ferry/ferry.dart';
@@ -22,13 +23,40 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
   final graphqlClient = initClient();
+  late String roomId;
 
   TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController(keepScrollOffset: false);
 
+  handlePostMessage() async {
+    String messageContent = messageController.text;
+    print('room id $roomId message content => $messageContent');
+    final postMessageReq = GPostMessageMutationReq((r) => r
+      ..vars.content = messageContent
+      ..vars.roomId = roomId);
+    final res = await graphqlClient
+        .request(postMessageReq)
+        .firstWhere((response) => response.dataSource != DataSource.Optimistic);
+    print('post message res');
+    print(res.data?.createMessage?.content);
+    final messagesReq = GMessagesQueryReq((b) => b..vars.roomId = roomId);
+    graphqlClient.requestController.add(messagesReq);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as ChatArguments;
+    final args = ModalRoute.of(context)!.settings.arguments as ChatArguments?;
+
+    print('args');
+    print(args);
+
+    if (args == null) {
+      Navigator.of(context).pushNamed(Dashboard.id);
+    }
+
+    roomId = args!.roomId!;
+
+    final messagesReq = GMessagesQueryReq((b) => b..vars.roomId = roomId);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -69,8 +97,7 @@ class _ChatState extends State<Chat> {
       ),
       body: Operation(
         client: graphqlClient,
-        operationRequest:
-            GMessagesQueryReq((b) => b..vars.roomId = args.roomId),
+        operationRequest: messagesReq,
         builder: (context,
             OperationResponse<GMessagesQueryData, GMessagesQueryVars>? response,
             error) {
@@ -133,77 +160,15 @@ class _ChatState extends State<Chat> {
                         decoration:
                             const InputDecoration(hintText: 'Start typing...'),
                       )),
-                      CustomButton(title: 'Send', onPressed: () {}),
+                      CustomButton(title: 'Send', onPressed: handlePostMessage),
                     ],
                   )
                 ],
               ),
             ),
           );
-
-          // return ListView.builder(
-          //   itemCount: data.length,
-          //   itemBuilder: (context, index) {
-          //     var el = data[index];
-          //     return ListTile(
-          //       // leading: Text('   ' + el.name!),
-          //       title: Text(el.content!),
-          //       trailing: Text(el.user!.username!),
-          //       onTap: () {
-          //         print('message with id ${el.id} tapped');
-          //       },
-          //     );
-          //   },
-          // );
-          // return Text('data');
         },
       ),
-      // body: SafeArea(
-      //   child: Padding(
-      //     padding: const EdgeInsets.all(16.0),
-      //     child: Column(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: <Widget>[
-      //         Expanded(
-      //             child: ListView.builder(
-      //           controller: scrollController,
-      //           itemCount: 10,
-      //           itemBuilder: (context, index) {
-      //             String messageContent = 'hello';
-      //             String messageUsername = 'inblak67';
-      //             bool me = messageUsername == 'inblack';
-      //             return Padding(
-      //               padding: const EdgeInsets.all(8.0),
-      //               child: Message(
-      //                 username: messageUsername,
-      //                 content: messageContent,
-      //                 me: me,
-      //               ),
-      //             );
-      //             // return ListTile(
-      //             //   title: Text(messageContent),
-      //             // );
-      //           },
-      //         )),
-      //         const SizedBox(
-      //           height: 10.0,
-      //         ),
-      //         Row(
-      //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //           children: <Widget>[
-      //             Expanded(
-      //                 child: TextField(
-      //               controller: messageController,
-      //               decoration:
-      //                   const InputDecoration(hintText: 'Start typing...'),
-      //             )),
-      //             CustomButton(title: 'Send', onPressed: () {}),
-      //           ],
-      //         )
-      //       ],
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

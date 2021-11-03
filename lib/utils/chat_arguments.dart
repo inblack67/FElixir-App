@@ -1,4 +1,4 @@
 class ChatArguments {
-  String roomId;
+  String? roomId;
   ChatArguments({required this.roomId});
 }

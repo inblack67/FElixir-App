@@ -11,6 +11,15 @@ import 'package:felixir/graphql/messages.data.gql.dart'
         GMessagesQueryData_messages_user;
 import 'package:felixir/graphql/messages.req.gql.dart' show GMessagesQueryReq;
 import 'package:felixir/graphql/messages.var.gql.dart' show GMessagesQueryVars;
+import 'package:felixir/graphql/postMessage.data.gql.dart'
+    show
+        GPostMessageMutationData,
+        GPostMessageMutationData_createMessage,
+        GPostMessageMutationData_createMessage_user;
+import 'package:felixir/graphql/postMessage.req.gql.dart'
+    show GPostMessageMutationReq;
+import 'package:felixir/graphql/postMessage.var.gql.dart'
+    show GPostMessageMutationVars;
 import 'package:felixir/graphql/rooms.data.gql.dart'
     show GRoomsQueryData, GRoomsQueryData_rooms, GRoomsQueryData_rooms_user;
 import 'package:felixir/graphql/rooms.req.gql.dart' show GRoomsQueryReq;
@@ -45,6 +54,11 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GMessagesQueryData_messages_user,
   GMessagesQueryReq,
   GMessagesQueryVars,
+  GPostMessageMutationData,
+  GPostMessageMutationData_createMessage,
+  GPostMessageMutationData_createMessage_user,
+  GPostMessageMutationReq,
+  GPostMessageMutationVars,
   GRoomInputType,
   GRoomsQueryData,
   GRoomsQueryData_rooms,
