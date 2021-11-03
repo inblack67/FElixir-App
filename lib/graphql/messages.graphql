@@ -1,0 +1,9 @@
+query MessagesQuery($roomId: ID!) {
+  messages(input: { roomId: $roomId }) {
+    content
+    id
+    user {
+      username
+    }
+  }
+}

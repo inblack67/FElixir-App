@@ -1,3 +1,4 @@
+import 'package:felixir/widgets/widget_chat.dart';
 import 'package:felixir/widgets/widget_dashboard.dart';
 import 'package:felixir/widgets/widget_home.dart';
 import 'package:felixir/widgets/widget_login.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         Login.id: (context) => const Login(),
         Register.id: (context) => const Register(),
         Dashboard.id: (context) => Dashboard(),
+        Chat.id: (context) => const Chat(),
       },
     );
   }

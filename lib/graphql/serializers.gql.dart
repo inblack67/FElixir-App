@@ -4,6 +4,17 @@ import 'package:built_value/standard_json_plugin.dart' show StandardJsonPlugin;
 import 'package:felixir/graphql/greet.data.gql.dart' show GGreetData;
 import 'package:felixir/graphql/greet.req.gql.dart' show GGreetReq;
 import 'package:felixir/graphql/greet.var.gql.dart' show GGreetVars;
+import 'package:felixir/graphql/messages.data.gql.dart'
+    show
+        GMessagesQueryData,
+        GMessagesQueryData_messages,
+        GMessagesQueryData_messages_user;
+import 'package:felixir/graphql/messages.req.gql.dart' show GMessagesQueryReq;
+import 'package:felixir/graphql/messages.var.gql.dart' show GMessagesQueryVars;
+import 'package:felixir/graphql/rooms.data.gql.dart'
+    show GRoomsQueryData, GRoomsQueryData_rooms, GRoomsQueryData_rooms_user;
+import 'package:felixir/graphql/rooms.req.gql.dart' show GRoomsQueryReq;
+import 'package:felixir/graphql/rooms.var.gql.dart' show GRoomsQueryVars;
 import 'package:felixir/graphql/schema.schema.gql.dart'
     show
         GDeleteMessageInput,
@@ -29,6 +40,16 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GGreetVars,
   GListMessagesType,
   GMessageInputType,
-  GRoomInputType
+  GMessagesQueryData,
+  GMessagesQueryData_messages,
+  GMessagesQueryData_messages_user,
+  GMessagesQueryReq,
+  GMessagesQueryVars,
+  GRoomInputType,
+  GRoomsQueryData,
+  GRoomsQueryData_rooms,
+  GRoomsQueryData_rooms_user,
+  GRoomsQueryReq,
+  GRoomsQueryVars
 ])
 final Serializers serializers = _serializersBuilder.build();

@@ -1,0 +1,11 @@
+query RoomsQuery {
+  rooms {
+    name
+    insertedAt
+    id
+    user {
+      id
+      username
+    }
+  }
+}

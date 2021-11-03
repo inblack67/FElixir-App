@@ -2,7 +2,12 @@ import 'package:felixir/ferry/client.dart';
 import 'package:felixir/graphql/greet.data.gql.dart';
 import 'package:felixir/graphql/greet.req.gql.dart';
 import 'package:felixir/graphql/greet.var.gql.dart';
+import 'package:felixir/graphql/rooms.data.gql.dart';
+import 'package:felixir/graphql/rooms.req.gql.dart';
+import 'package:felixir/graphql/rooms.var.gql.dart';
+import 'package:felixir/utils/chat_arguments.dart';
 import 'package:felixir/widgets/custom_alert.dart';
+import 'package:felixir/widgets/widget_chat.dart';
 import 'package:felixir/widgets/widget_home.dart';
 import 'package:ferry/ferry.dart';
 import 'package:ferry_flutter/ferry_flutter.dart';
@@ -14,7 +19,7 @@ class Dashboard extends StatelessWidget {
   static const id = 'DASHBOARD';
 
   final graphqlClient = initClient();
-  final greetReq = GGreetReq();
+  final roomsReq = GRoomsQueryReq();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class Dashboard extends StatelessWidget {
               },
               color: Colors.red[900]),
         ],
-        title: Text('FElixir',
+        title: Text('FElixir | Rooms',
             style: TextStyle(
               color: Colors.red[900],
               fontWeight: FontWeight.bold,
@@ -38,8 +43,9 @@ class Dashboard extends StatelessWidget {
       ),
       body: Operation(
         client: graphqlClient,
-        operationRequest: greetReq,
-        builder: (context, OperationResponse<GGreetData, GGreetVars>? response,
+        operationRequest: roomsReq,
+        builder: (context,
+            OperationResponse<GRoomsQueryData, GRoomsQueryVars>? response,
             error) {
           if (response == null) {
             return const CustomAlert(
@@ -52,8 +58,31 @@ class Dashboard extends StatelessWidget {
               ),
             );
           }
-          final data = response.data?.hello ?? 'No Data';
-          return Text(data);
+          final data = response.data?.rooms;
+          if (data == null) {
+            return const CustomAlert(
+              title: 'Error!',
+              message: 'Failed to fetch',
+            );
+          }
+          return ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              var el = data[index];
+              return ListTile(
+                // leading: Text('   ' + el.name!),
+                title: Text(el.name!),
+                trailing: Text(el.user!.username!),
+                onTap: () {
+                  print('room with id ${el.id} tapped');
+                  Navigator.of(context).pushNamed(Chat.id,
+                      arguments: ChatArguments(roomId: el.id!));
+                  return;
+                },
+              );
+            },
+          );
+          // return Text('data');
         },
       ),
     );
