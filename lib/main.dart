@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
             Home.id: (context) => const Home(),
             Login.id: (context) => const Login(),
             Register.id: (context) => const Register(),
-            Chat.id: (context) => const Chat(),
+            Chat.id: (context) => Chat(client: clientFor(uri: graphqlEndpoint)),
             Dashboard.id: (context) => const Dashboard(),
           },
         ));

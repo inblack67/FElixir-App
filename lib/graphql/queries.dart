@@ -17,3 +17,16 @@ query RoomsQuery {
   }
 }
 ''';
+
+const messagesQuery = r'''
+query MessagesQuery($roomId: ID!) {
+  messages(input: { roomId: $roomId }) {
+    content
+    id
+    user {
+      username
+    }
+  }
+}
+
+''';

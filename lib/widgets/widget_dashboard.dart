@@ -14,7 +14,7 @@ class Dashboard extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('FElixir',
+        title: Text('FElixir | Rooms',
             style: TextStyle(
               color: Colors.red[900],
               fontWeight: FontWeight.bold,
