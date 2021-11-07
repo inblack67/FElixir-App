@@ -1,17 +1,6 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/material.dart';
 
-// String uuidFromObject(Object object) {
-//   if (object is Map<String, Object>) {
-//     final String typeName = object['__typename'];
-//     final String id = object['id'].toString();
-//     if (typeName != null && id != null) {
-//       return <String>[typeName, id].join('/');
-//     }
-//   }
-//   return null;
-// }
-
 ValueNotifier<GraphQLClient> clientFor({
   required String uri,
   String? subscriptionUri,
@@ -37,15 +26,13 @@ ValueNotifier<GraphQLClient> clientFor({
 /// We use the cache for all state management.
 class ClientProvider extends StatelessWidget {
   ClientProvider({
-    Key? key,
     required this.child,
     required String uri,
     String? subscriptionUri,
-  })  : client = clientFor(
+  }) : client = clientFor(
           uri: uri,
           subscriptionUri: subscriptionUri,
-        ),
-        super(key: key);
+        );
 
   final Widget child;
   final ValueNotifier<GraphQLClient> client;
