@@ -5,8 +5,10 @@ import 'package:felixir/widgets/custom_alert.dart';
 import 'package:felixir/widgets/custom_button.dart';
 import 'package:felixir/widgets/widget_dashboard.dart';
 import 'package:felixir/widgets/widget_message.dart';
+import 'package:felixir/widgets/widget_new_message_subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:phoenix_socket/phoenix_socket.dart';
 
 class Chat extends StatefulWidget {
   final ValueNotifier<GraphQLClient> client;
@@ -23,6 +25,25 @@ class _ChatState extends State<Chat> {
 
   TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController(keepScrollOffset: false);
+
+  late PhoenixSocket _socket;
+
+  void playChannels() async {
+    print('playing channels...');
+    _socket = PhoenixSocket('ws://localhost:4000/socket/websocket')..connect();
+    _socket.closeStream.listen((event) {
+      print('disconnected...');
+    });
+    _socket.openStream.listen((event) {
+      print('connected...');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    playChannels();
+  }
 
   handlePostMessage() async {
     String messageContent = messageController.text;
@@ -126,7 +147,7 @@ class _ChatState extends State<Chat> {
                       bool me = messageUsername == el['user']['username'];
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Message(
+                        child: WMessage(
                           username: messageUsername,
                           content: messageContent,
                           me: me,
@@ -151,7 +172,8 @@ class _ChatState extends State<Chat> {
                       )),
                       CustomButton(title: 'Send', onPressed: handlePostMessage),
                     ],
-                  )
+                  ),
+                  WNewMessage(roomId: roomId),
                 ],
               ),
             ),

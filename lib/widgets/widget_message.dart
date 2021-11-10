@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Message extends StatelessWidget {
+class WMessage extends StatelessWidget {
   final String username;
   final String content;
   final bool me;
 
-  const Message(
+  const WMessage(
       {Key? key,
       required this.username,
       required this.content,
