@@ -1,4 +1,5 @@
 import 'package:felixir/graphql/subscriptions.dart';
+import 'package:felixir/widgets/widget_message.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -18,15 +19,19 @@ class WNewMessage extends StatelessWidget {
           }
 
           print('loading => $result.loading');
-          print('data => $result.data');
 
-          return const Text('done');
+          print('data => $result.data');
 
           // if (result.isLoading) {
           //   return const Center(
-          //     child:  CircularProgressIndicator(),
+          //     child: CircularProgressIndicator(),
           //   );
           // }
+
+          return const Text('oops');
+
+          // return WMessage(username: , content: content, me: me);
+
           // return ResultAccumulator.appendUniqueEntries(
           //   latest: result.data,
           //   builder: (context, {results}) => DisplayReviews(

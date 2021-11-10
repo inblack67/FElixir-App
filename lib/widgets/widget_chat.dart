@@ -12,7 +12,9 @@ import 'package:phoenix_socket/phoenix_socket.dart';
 
 class Chat extends StatefulWidget {
   final ValueNotifier<GraphQLClient> client;
-  const Chat({Key? key, required this.client}) : super(key: key);
+  final bool websocketConnected;
+  const Chat({Key? key, required this.client, required this.websocketConnected})
+      : super(key: key);
 
   static const id = 'CHAT';
 
@@ -28,21 +30,25 @@ class _ChatState extends State<Chat> {
 
   late PhoenixSocket _socket;
 
-  void playChannels() async {
-    print('playing channels...');
-    _socket = PhoenixSocket('ws://localhost:4000/socket/websocket')..connect();
-    _socket.closeStream.listen((event) {
-      print('disconnected...');
-    });
-    _socket.openStream.listen((event) {
-      print('connected...');
-    });
-  }
+  // void playChannels() async {
+  //   print('playing channels...');
+  //   _socket = PhoenixSocket('ws://localhost:4000/socket/websocket')..connect();
+  //   _socket.closeStream.listen((event) {
+  //     setState(() {
+  //       _websocketConnected = false;
+  //     });
+  //     print('websocket disconnected...');
+  //   });
+  //   _socket.openStream.listen((event) {
+  //     _websocketConnected = true;
+  //     print('websocket connected...');
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    playChannels();
+    // playChannels();
   }
 
   handlePostMessage() async {
@@ -73,8 +79,8 @@ class _ChatState extends State<Chat> {
                 ),
               ));
     }
-    print("post message result");
-    print(result.data);
+    // print("post message result");
+    // print(result.data);
   }
 
   @override
@@ -173,7 +179,13 @@ class _ChatState extends State<Chat> {
                       CustomButton(title: 'Send', onPressed: handlePostMessage),
                     ],
                   ),
-                  WNewMessage(roomId: roomId),
+                  widget.websocketConnected
+                      ? WNewMessage(roomId: roomId)
+                      : const Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.red,
+                          ),
+                        )
                 ],
               ),
             ),

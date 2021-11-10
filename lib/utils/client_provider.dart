@@ -1,17 +1,6 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:flutter/material.dart';
 
-// String uuidFromObject(Object object) {
-//   if (object is Map<String, Object>) {
-//     final String typeName = object['__typename'];
-//     final String id = object['id'].toString();
-//     if (typeName != null && id != null) {
-//       return <String>[typeName, id].join('/');
-//     }
-//   }
-//   return null;
-// }
-
 ValueNotifier<GraphQLClient> clientFor({
   required String uri,
   String? subscriptionUri,
@@ -21,9 +10,23 @@ ValueNotifier<GraphQLClient> clientFor({
     final WebSocketLink websocketLink = WebSocketLink(
       subscriptionUri,
     );
-
+    print('CONNECTED!');
     link = Link.split((request) => request.isSubscription, websocketLink, link);
   }
+
+  // print('making socket...');
+  // PhoenixSocket socket = PhoenixSocket('ws://localhost:4000/socket/websocket')
+  //   ..connect();
+
+  // WebSocketLink? webSocketLink;
+
+  // socket.openStream.listen((event) {
+  //   print('is connected => ${socket.isConnected}');
+  //   print('connected...');
+  //   webSocketLink = WebSocketLink('ws://localhost:4000/socket/websocket');
+  // });
+
+  // print('webSocketLink $webSocketLink');
 
   return ValueNotifier<GraphQLClient>(
     GraphQLClient(
